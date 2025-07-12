@@ -1,34 +1,24 @@
-# 🎬 Movie Recommendation Engine
+"""
+# Movie Recommendation System
 
-This is a simple Python-based movie recommendation engine that predicts and suggests movies to users based on their preferences.
+This project is a personalized movie recommender system based on collaborative filtering, content-based filtering, and a hybrid approach, served through a FastAPI interface.
 
 ## Features
+- User-Based Collaborative Filtering
+- Item-Based Collaborative Filtering
+- Content-Based Filtering (genres, titles)
+- Hybrid Filtering
+- Real-time API
 
-- 📊 Content-based filtering
-- 🤝 Collaborative filtering (user-based or item-based)
-- 🔍 Demographic filtering
-- 🔄 Hybrid filtering
-
-## Technologies Used
-
-- Python 3
-- Pandas
-- NumPy
-
-## Dataset
-
-This project uses a movie dataset containing user ratings, movie titles, genres, and additional metadata. 
-
-## Installation
-
-1. Clone the repository:
+## Setup
 ```bash
-git clone https://github.com/milanlazarevic/Recommendation-System.git
-cd Recommendation-System
+pip install -r requirements.txt
+uvicorn app.api.main:app --reload
 ```
 
-## How to run
-Simply run the main.py file with Python 3.6+, or got through the python notebook
-```bash
-python3 main.py
-```
+## API Endpoints
+- `/recommend/user/{user_id}`
+- `/recommend/movie/{movie_id}`
+- `/recommend/content/{movie_id}`
+- `/recommend/hybrid/{user_id}`
+"""
