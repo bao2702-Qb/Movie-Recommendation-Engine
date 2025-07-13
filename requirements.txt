@@ -1,7 +1,7 @@
-pandas
-numpy
-scikit-learn
 fastapi
 uvicorn
+pandas
+scikit-learn
+python-multipart
 jinja2
-pickle-mixin
+numpy

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Recommendation System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .results {
+      margin-top: 30px;
+    }
+    .movie {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎬 Movie Recommendation</h1>
+
+    <label for="userId">User ID (for Collaborative & Hybrid):</label>
+    <input type="number" id="userId" placeholder="Enter user ID">
+
+    <label for="movieId">Movie ID (for Content-Based):</label>
+    <input type="number" id="movieId" placeholder="Enter movie ID">
+
+    <button onclick="getRecommendations('collaborative')">Collaborative Filtering</button>
+    <button onclick="getRecommendations('content')">Content-Based Filtering</button>
+    <button onclick="getRecommendations('hybrid')">Hybrid Recommendation</button>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    async function getRecommendations(type) {
+      const userId = document.getElementById('userId').value;
+      const movieId = document.getElementById('movieId').value;
+      let url = '';
+
+      if (type === 'collaborative') {
+        if (!userId) return alert("Please enter a User ID");
+        url = `http://localhost:8000/recommend/collaborative/${userId}`;
+      } else if (type === 'content') {
+        if (!movieId) return alert("Please enter a Movie ID");
+        url = `http://localhost:8000/recommend/content/${movieId}`;
+      } else if (type === 'hybrid') {
+        if (!userId) return alert("Please enter a User ID");
+        url = `http://localhost:8000/recommend/hybrid/${userId}`;
+      }
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        displayResults(data);
+      } catch (err) {
+        document.getElementById('results').innerHTML = '<p style="color:red;">Error fetching recommendations.</p>';
+      }
+    }
+
+    function displayResults(data) {
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '<h3>Recommended Movies:</h3>';
+      if (!data || data.length === 0) {
+        resultsDiv.innerHTML += '<p>No results found.</p>';
+        return;
+      }
+      data.forEach(movie => {
+        resultsDiv.innerHTML += `<div class="movie">🎥 ${movie.title}</div>`;
+      });
+    }
+  </script>
+</body>
+</html>
